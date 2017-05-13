@@ -5,8 +5,6 @@ from config import ENV_WIDTH_CELLS, ENV_HEIGHT_CELLS, PLAYER_WIDTH, PLAYER_HEIGH
 
 import numpy as np
 import numpy.random as npr
-WIDTH = 48
-HEIGHT = 48
 
 
 class Player(sprite.Sprite):
@@ -14,32 +12,24 @@ class Player(sprite.Sprite):
     def __init__(self, field, startX, startY, health_points, brain, img=None):
         sprite.Sprite.__init__(self)
 
-        # Field to play
         self.field = field
         self.field.map[startX][startY].occupied = True
 
-        # Initial location
         self.x = startX
         self.y = startY
-        self.rect = Rect(self.x, self.y, WIDTH, HEIGHT)
+        self.rect = Rect(self.x, self.y, PLAYER_WIDTH, PLAYER_HEIGHT)
 
         self.brain = brain
 
-        # Moving direction
         self.horizontal = 0
         self.vertical = 0
 
-        # Health points
         self.health_points = health_points
 
-        # Statistics
         self.stats = Stats()
 
-        # Load Image on the Environment
-        if img:
-            self.image = image.load(img)
-        else:
-            self.image = Surface((WIDTH, HEIGHT))
+        self.image = image.load(img)
+
         # Flag: None, 'commander', 'delete'
         self.flag = None
 
@@ -84,8 +74,6 @@ class Player(sprite.Sprite):
             pass
 
         self.brain.count_loss(res, self.strategy_name)
-
-
 
     def move(self):
         # Don't go out from border

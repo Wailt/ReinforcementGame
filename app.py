@@ -16,34 +16,19 @@ from config import *
 
 def main():
     print("GOOD LUCK HAVE FUN!")
-    # Initializing PyGame
+
     pygame.init()
-
-    # Screen
     screen = pygame.display.set_mode(DISPLAY)
-
-    # Set game header
     pygame.display.set_caption("Rein Game")
 
-    # Initialize visible surface
-    background = Surface(DISPLAY)
-
-    # Fill background with BACKGROUND_COLOR
-    background.fill(Color(BACKGROUND_COLOR))
-
-    # Game field
     field = Environment(ENV_WIDTH_CELLS, ENV_HEIGHT_CELLS)
 
     begin_time = time()
     timer = pygame.time.Clock()
     timer.tick(10)
 
-    step = 0
-
     brain_one = Brain(identifier=1)
     brain_two = Brain(identifier=2)
-    brain_three = Brain(identifier=3)
-    brain_four = Brain(identifier=4)
 
     group_one = [Player(field=field,
                     startX=npr.randint(ENV_WIDTH_CELLS/2),
@@ -70,15 +55,14 @@ def main():
             pygame.display.update()
             #field.update()
             field.draw(screen)
-            for g in group_one + group_two:# + group_three + group_four:
-                g.update(g, group_one + group_two)# + group_three + group_four)
+            for g in group_one + group_two:
+                if g.flag == 'delete':
+                    continue
+                g.update(g, group_one + group_two)
                 g.draw(screen)
-            # print(group_one[0].brain.strategies['init'].dec_weights)
-            #print(step)
+
             group_one = [i for i in group_one if i.flag != 'delete']
             group_two = [i for i in group_two if i.flag != 'delete']
-            #group_three = [i for i in group_three if i.flag != 'delete']
-            #group_four = [i for i in group_four if i.flag != 'delete']
             sleep(0.25)
     except Exception as e:
         print('Time:', time() - begin_time)
