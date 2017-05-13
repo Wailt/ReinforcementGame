@@ -8,26 +8,27 @@ class Strategy:
     def __init__(self, loss, decisions=[], n=3):
         self.decisions = decisions
         self.loss = loss
-
+        self.size = n
         # {id: list}
         self.dec_weights = dict()
 
     def decide(self, npc, world):
-        if npr.rand(len(self.dec_weights) + 1):
-            name, dec_list = self.create_new_decs()
+        if len(self.dec_weights) < len(self.decisions) ** self.size:
+            if not npr.randint(len(self.dec_weights) + 1):
+                dec_list = self.create_new_decs()
+            else:
+                dec_list = self.choose_dec()
         else:
-            name, dec_list = self.choose_dec()
+            return self.choose_dec()
 
-        return name, dec_list
+        return dec_list
 
     def create_new_decs(self):
-        dec_list = [self.decisions[i] for i in npr.randint(0, len(self.decisions))]
+        dec_list = tuple([self.decisions[i] for i in npr.randint(0, len(self.decisions), self.size)])
         while dec_list in self.dec_weights:
-            dec_list = [self.decisions[i] for i in npr.randint(0, len(self.decisions))]
-
-        old_len = len(self.dec_weights)
-        self.dec_weights[old_len] = dec_list
-        return old_len, dec_list
+            dec_list = tuple([self.decisions[i] for i in npr.randint(0, len(self.decisions), self.size)])
+        self.dec_weights[dec_list] = 0
+        return dec_list
 
     def choose_dec(self):
         norma = sum(np.exp(temperature * np.array([self.dec_weights[k] for k in self.dec_weights])))
@@ -36,6 +37,8 @@ class Strategy:
         for key in self.dec_weights:
             cumsum += np.exp(temperature * self.dec_weights[key]) / norma
             if cumsum >= level:
-                return key, self.dec_weights[key]
+                return key
+        return self.dec_weights.keys()[0]
+
 
 # return {'moove': ('random', decision['moove'][''])}

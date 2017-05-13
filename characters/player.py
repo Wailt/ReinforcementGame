@@ -12,12 +12,14 @@ class Player(sprite.Sprite):
     WIDTH = 48
     HEIGHT = 48
 
-    def __init__(self, startX, startY,  health_points, img=None):
+    def __init__(self, startX, startY,  health_points, brain, img=None):
         sprite.Sprite.__init__(self)
         # Initial location
         self.x = startX
         self.y = startY
         self.rect = Rect(self.x, self.y, WIDTH, HEIGHT)
+
+        self.brain = brain
 
         # Moving direction
         self.horizontal = 0
@@ -36,8 +38,9 @@ class Player(sprite.Sprite):
         # Flag: None, 'commander', 'delete'
         self.flag = None
 
-    def update(self):
+    def update(self, npc, world):
         self.move()
+        self.brain.decide(npc, world)
 
     def move(self):
         # Don't go out from border

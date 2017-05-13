@@ -6,6 +6,7 @@ from time import time
 
 import numpy.random as npr
 
+from characters.brain import Brain
 from characters.player import Player
 from environment.environment import Environment
 from event_handler.event_handler import event_handler, group_handler
@@ -37,12 +38,14 @@ def main():
 
     begin_time = time()
     timer = pygame.time.Clock()
-    timer.tick(10)
+    timer.tick(5)
 
     step = 0
+    brain = Brain()
     group = [Player(startX=npr.randint(10),
                     startY=npr.randint(10),
                     health_points=100,
+                    brain = brain,
                     img='img/warrior_1.png') for i in range(10)]
     try:
         while 1:
@@ -54,7 +57,7 @@ def main():
             pygame.display.update()
             field.draw(screen)
             for g in group:
-                g.update()
+                g.update(g, group)
                 g.draw(screen)
             #print('step:', step/(time() - begin_time))
             #print(group[0].vertical)
