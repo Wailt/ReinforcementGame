@@ -1,6 +1,8 @@
 import pygame
 from pygame import *
 
+import numpy as np
+
 MOVE_SPEED = 7
 WIDTH = 48
 HEIGHT = 48
@@ -16,27 +18,28 @@ class Player(sprite.Sprite):
         # Initial location
         self.startX = x
         self.startY = y
+        self.rect = Rect(x, y, WIDTH, HEIGHT)
+
+        # Moving direction
+        self.horizontal = 0
+        self.vertical = 0
 
         # Health points
-        self.health_point = health_points
-
-        # Image of the Character on Environment
-        self.image = Surface((WIDTH, HEIGHT))
+        self.health_points = health_points
 
         # Load Image on the Environment
         if img:
             self.image = image.load(img)
         else:
-            self.image.fill(Color(100, 100, 100)) # Color - ?
-            self.rect = Rect(int(self.startX) * WIDTH, int(self.startY) * WIDTH, WIDTH, HEIGHT)
+            self.image = Surface((WIDTH, HEIGHT))
+            self.image.fill(Color(COLOR))
 
-        self.flag = None
+    def move(self):
+        self.rect.x += self.horizontal
+        self.rect.y += self.vertical
 
-    def go(self):
+    def attack(self):
         pass
-
-    def attack(self, g):
-        g.flag = "delete"
 
     def defend(self):
         pass
