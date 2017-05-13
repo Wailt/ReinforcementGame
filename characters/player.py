@@ -72,9 +72,11 @@ class Player(sprite.Sprite):
         # self.stats.skills["fight"] += self.stats.skills_upgrade["fight"]
 
     def defend(self, damage):
-        self.health_points -= damage - self.stats.skills["defence"] * self.stats.attributes["stamina"]
+        blocked_damage = self.stats.skills["defence"] * self.stats.attributes["stamina"] / 10
+        self.health_points -= damage - blocked_damage
         if self.health_points <= 0:
             self.flag = 'delete'
+        self.stats.skills_upgrade["defence"] = blocked_damage / float(self.stats.skills["defence"])
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x * PLAYER_WIDTH, self.rect.y * PLAYER_HEIGHT))
