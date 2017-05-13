@@ -36,17 +36,18 @@ class Player(sprite.Sprite):
             self.image = image.load(img)
         else:
             self.image = Surface((WIDTH, HEIGHT))
-        #self.image.fill(Color(COLOR))
         # Flag: None, 'commander', 'delete'
         self.flag = None
 
         self.dec_list = None
 
+        self.strategy_name = 'init'
+
     def update(self, npc, world):
         self.move()
         self.update_skills()
         if not self.dec_list:
-            self.dec_list = self.brain.decide(npc, world)
+            self.dec_list = self.brain.decide(npc, world, strategy_name=self.strategy_name)
         self.implement_dec_list(world)
 
     def update_skills(self):
@@ -58,23 +59,29 @@ class Player(sprite.Sprite):
         dec = self.dec_list[0]
         self.dec_list = tuple(self.dec_list[1:])
 
+        res = 0
         if dec == 'attack':
             for g in group:
                 if np.max(np.fabs([self.rect.x - g.rect.x, self.rect.y - g.rect.y])) <= 1:
                     if self != g and self.brain.identifier != g.brain.identifier:
-                        self.attack(g)
+                        res = self.attack(g) / 10
         elif dec == 'move':
             oponent = sorted([g for g in group if self.brain.identifier != g.brain.identifier],
                    key=lambda x: np.max(np.fabs([self.rect.x - x.rect.x, self.rect.y - x.rect.y])))
             if oponent:
-                self.horizontal = ((oponent[0].rect.x - self.rect.x) > 0) * 2 - 1
-                self.vertical = ((oponent[0].rect.y - self.rect.y) > 0) * 2 - 1
+                #print('oponent')
+                self.horizontal = ((oponent[0].rect.x - self.rect.x) >= 0) * 2 - 1
+                self.vertical = ((oponent[0].rect.y - self.rect.y) >= 0) * 2 - 1
+                #print(self.horizontal, self.vertical)
+                res = (abs(self.horizontal) + abs(self.horizontal))/50
             else:
-                pass
                 self.horizontal = npr.randint(0, 3) - 1
                 self.vertical = npr.randint(0, 3) - 1
         elif dec == 'pass':
             pass
+
+        self.brain.count_loss(res, self.strategy_name)
+
 
 
 
@@ -98,9 +105,10 @@ class Player(sprite.Sprite):
     def attack(self, g):
         damage = self.stats.skills["fight"] * self.stats.attributes["strength"]
         # damage = 45
-        g.defend(damage)
+        res = g.defend(damage)
         self.stats.skills_upgrade["fight"] = 1 / damage  # self.stats.skills["fight"]
         # self.stats.skills["fight"] += self.stats.skills_upgrade["fight"]
+        return res
 
     def defend(self, damage):
         blocked_damage = self.stats.skills["defence"] * self.stats.attributes["stamina"] / 10
@@ -108,6 +116,7 @@ class Player(sprite.Sprite):
         if self.health_points <= 0:
             self.flag = 'delete'
         self.stats.skills_upgrade["defence"] = blocked_damage / float(self.stats.skills["defence"])
+        return damage - blocked_damage
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x * PLAYER_WIDTH, self.rect.y * PLAYER_HEIGHT))

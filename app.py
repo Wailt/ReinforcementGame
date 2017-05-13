@@ -42,18 +42,33 @@ def main():
 
     brain_one = Brain(identifier=1)
     brain_two = Brain(identifier=2)
+    brain_three = Brain(identifier=3)
+    brain_four = Brain(identifier=4)
 
     group_one = [Player(startX=npr.randint(ENV_WIDTH_CELLS/2),
                     startY=npr.randint(ENV_HEIGHT_CELLS/2),
                     health_points=HP,
                     brain = brain_one,
-                    img='img/warrior_2.png') for i in range(10)]
+                    img='img/warrior_2.png') for i in range(15)]
 
     group_two = [Player(startX=npr.randint(ENV_WIDTH_CELLS/2, ENV_WIDTH_CELLS),
                     startY=npr.randint(ENV_HEIGHT_CELLS/2, ENV_HEIGHT_CELLS),
                     health_points=HP,
                     brain = brain_two,
-                    img='img/warriorNew_1.png') for i in range(10)]
+                    img='img/warriorNew_1.png') for i in range(15)]
+
+    group_three = [Player(startX=npr.randint(ENV_WIDTH_CELLS/2),
+                    startY=npr.randint(ENV_HEIGHT_CELLS/2, ENV_HEIGHT_CELLS),
+                    health_points=HP,
+                    brain = brain_three,
+                    img='img/warrior_pink.png') for i in range(15)]
+
+    group_four = [Player(startX=npr.randint(ENV_WIDTH_CELLS/2, ENV_WIDTH_CELLS),
+                    startY=npr.randint(ENV_HEIGHT_CELLS/2),
+                    health_points=HP,
+                    brain = brain_four,
+                    img='img/warrior_1.png') for i in range(15)]
+
 
     try:
         while 1:
@@ -64,14 +79,18 @@ def main():
                 #group_handler(evt, (group_one + group_two)[0], group_one + group_two)
 
             pygame.display.update()
+            #field.update()
             field.draw(screen)
-            for g in group_one + group_two:
-                g.update(g, group_one + group_two)
+            for g in group_one + group_two:# + group_three + group_four:
+                g.update(g, group_one + group_two)# + group_three + group_four)
                 g.draw(screen)
-
+            #print(group_one[0].brain.strategies['init'].dec_weights)
+            #print(step)
             group_one = [i for i in group_one if i.flag != 'delete']
             group_two = [i for i in group_two if i.flag != 'delete']
-            sleep(1)
+            #group_three = [i for i in group_three if i.flag != 'delete']
+            #group_four = [i for i in group_four if i.flag != 'delete']
+            sleep(0.25)
     except Exception as e:
         print('Time:', time() - begin_time)
         print("THX FOR THE GAME!")

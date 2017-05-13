@@ -5,9 +5,9 @@ class Stats:
     def __init__(self):
         # Character's skills
         # Will change (improve) during time
-        self.skills = {"fight" : 1,
-                       "defence" : 1,
-                       "athletics" : 1}
+        self.skills = {"fight" : np.random.rand()/10 + 1,
+                       "defence" : np.random.rand()/10 + 1,
+                       "athletics" : np.random.rand()/10 + 1}
 
         # Character's attributes
         # Character is born with this values and cannot change them
