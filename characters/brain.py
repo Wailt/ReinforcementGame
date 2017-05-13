@@ -6,7 +6,8 @@ init = ['move', 'attack', 'pass']
 class Brain():
     def __init__(self, decisions=init, identifier=0, n=3):
         self.identifier = identifier
-        self.strategies = {'init': Strategy(loss=lambda x: x, decisions=decisions, n=n)}
+        self.strategies = {False: Strategy(loss=lambda x: x, decisions=decisions, n=n),
+                           True: Strategy(loss=lambda x: -1/(1 + x), decisions=decisions, n=max(n - 1, 1))}
 
     def decide(self, npc, world, strategy_name='init'):
         dec_list = self.strategies[strategy_name].decide(npc, world)

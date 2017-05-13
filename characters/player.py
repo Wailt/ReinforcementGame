@@ -41,18 +41,23 @@ class Player(sprite.Sprite):
         self.strategy_name = 'init'
 
     def update(self, npc, world, mode=False):
+        if self.strategy_name != mode:
+            self.strategy_name = mode
+            self.dec_list = None
+        else:
+            pass
         self.move()
         self.update_skills()
         if not self.dec_list:
             self.dec_list = self.brain.decide(npc, world, strategy_name=self.strategy_name)
-        self.implement_dec_list(world, mode=mode)
+        self.implement_dec_list(world)
 
     def update_skills(self):
         for key in self.stats.skills:
             self.stats.skills[key] += self.stats.skills_upgrade[key]
             self.stats.skills_upgrade[key] = 0
 
-    def implement_dec_list(self, group, mode=False):
+    def implement_dec_list(self, group):
         dec = self.dec_list[0]
         if dec != 'move':
             self.dec_list = tuple(self.dec_list[1:])
@@ -73,8 +78,8 @@ class Player(sprite.Sprite):
                     self.horizontal = (((oponent[0].rect.x - self.rect.x) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
                     self.vertical = (((oponent[0].rect.y - self.rect.y) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
 
-                    self.horizontal = self.horizontal * (mode * 2 - 1)
-                    self.vertical = self.vertical * (mode * 2 - 1)
+                    #self.horizontal = self.horizontal * (mode * 2 - 1)
+                    #self.vertical = self.vertical * (mode * 2 - 1)
                     res = (abs(self.horizontal) + abs(self.horizontal))/50
             else:
                 self.horizontal = npr.randint(0, 3) - 1

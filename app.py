@@ -54,7 +54,7 @@ def main():
 
     try:
         while 1:
-            timer.tick(5)
+            timer.tick(4)
             for evt in pygame.event.get():
                 event_handler(evt, pac_button)
                 event_handler(evt, mode_button)

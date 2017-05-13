@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.random as npr
 
-temperature = 10
+temperature = 1
 
 
 class Strategy:
