@@ -6,37 +6,49 @@ from time import time
 from environment import Environment
 from event_handler import event_handler
 
-display = (400, 400)
-bg_color = "#FFFFFF"
+WIN_WIDTH = 400
+WIN_HEIGHT = 400
+DISPLAY = (WIN_WIDTH, WIN_HEIGHT)
+BACKGROUND_COLOR = "#FFFFFF"
 
 
 def main():
+    # Initializing PyGame
     pygame.init()
-    screen = pygame.display.set_mode(display)
+
+    # Screen
+    screen = pygame.display.set_mode(DISPLAY)
+
+    # Set game header
     pygame.display.set_caption("Rein Game")
-    bg = Surface(display)
-    bg.fill(Color(bg_color))
 
-    timer = pygame.time.Clock()
+    # Initialize visible surface
+    background = Surface(DISPLAY)
 
-    #game field
+    # Fill background with BACKGROUND_COLOR
+    background.fill(Color(BACKGROUND_COLOR))
+
+    # Game field
     field = Environment(10, 10)
 
-    step = 0
     begin_time = time()
+    timer = pygame.time.Clock()
     timer.tick(100)
+
+    step = 0
+
     try:
         while 1:
-            for e in pygame.event.get():
-                event_handler(e)
+            for evt in pygame.event.get():
+                event_handler(evt)
             step += 1
             pygame.display.update()
             field.draw(screen)
-            print('step:', step/(time() - begin_time))
-    except Exception as e:
-        print('step:', step)
-        print('time:', time() - begin_time)
-        raise e
+            print('Step:', step / (time() - begin_time))
+    except Exception as evt:
+        print('Step:', step)
+        print('Time:', time() - begin_time)
+        raise evt
 
 
 if __name__ == "__main__":
