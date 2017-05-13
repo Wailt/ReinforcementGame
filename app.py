@@ -28,9 +28,15 @@ def main():
     begin_time = time()
     timer = pygame.time.Clock()
 
-    button = Button(ENV_WIDTH_CELLS, 0)
-    brain_one = Brain(identifier=1)
-    brain_two = Brain(identifier=2)
+    pac_button = Button(ENV_WIDTH_CELLS, 0, info='PC')
+    mode_button = Button(ENV_WIDTH_CELLS, 1, info='mode')
+    pacman = Player(field=field,
+                    startX=0,
+                    startY=0,
+                    health_points=2000,
+                    brain=Brain(identifier=3, n=1),
+                    img='img/pacman_1.png',
+                    anima=['img/pacman_1.png', 'img/pacman_2.png'])
 
     group_one = [Player(field=field,
                     startX=npr.randint(ENV_WIDTH_CELLS/2),
@@ -48,9 +54,10 @@ def main():
 
     try:
         while 1:
-            timer.tick(10)
+            timer.tick(5)
             for evt in pygame.event.get():
-                event_handler(evt, button)
+                event_handler(evt, pac_button)
+                event_handler(evt, mode_button)
                 #group_handler(evt, (group_one + group_two)[0], group_one + group_two)
 
             pygame.display.update()
@@ -59,14 +66,18 @@ def main():
             for g in group_one + group_two:
                 if g.flag == 'delete':
                     continue
-                g.update(g, group_one + group_two)
+                if len(group_one) != 0 and len(group_two) != 0:
+                    g.update(g, group_one + group_two, mode=not mode_button.pushed)
                 g.draw(screen)
 
             group_one = [i for i in group_one if i.flag != 'delete']
             group_two = [i for i in group_two if i.flag != 'delete']
 
-            button.draw(screen)
-
+            pac_button.draw(screen)
+            mode_button.draw(screen)
+            if pac_button.pushed:
+                pacman.draw(screen)
+                pacman.update(pacman, group_one + group_two, mode=True)
     except Exception as e:
         print('Time:', time() - begin_time)
         print("THX FOR THE GAME!")
