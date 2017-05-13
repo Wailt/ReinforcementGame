@@ -35,7 +35,7 @@ def main():
     timer = pygame.time.Clock()
     timer.tick(100)
 
-    step = 0
+    group = [Sceleton(0, 0, 100)]
 
     try:
         while 1:
@@ -44,11 +44,13 @@ def main():
             step += 1
             pygame.display.update()
             field.draw(screen)
-            print('Step:', step / (time() - begin_time))
-    except Exception as evt:
-        print('Step:', step)
-        print('Time:', time() - begin_time)
-        raise evt
+            for g in group:
+                g.draw(screen)
+            print('step:', step/(time() - begin_time))
+    except Exception as e:
+        print('step:', step)
+        print('time:', time() - begin_time)
+        raise e
 
 
 if __name__ == "__main__":

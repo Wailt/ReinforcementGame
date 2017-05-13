@@ -6,6 +6,7 @@ import  numpy.random as npr
 WIDTH = 48
 HEIGHT = 48
 
+#one cell for game field
 class Cell(Sprite):
     def __init__(self, x, y, img = None):
         Sprite.__init__(self)

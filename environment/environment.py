@@ -1,6 +1,6 @@
 from cell import Cell
 
-
+#game field
 class Environment():
     def __init__(self, x, y):
         self.x = x
