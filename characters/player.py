@@ -34,6 +34,8 @@ class Player(sprite.Sprite):
             self.image = Surface((WIDTH, HEIGHT))
             self.image.fill(Color(COLOR))
 
+        # Flag: None, 'commander', 'delete'
+        self.flag = None
     def move(self):
         self.rect.x += self.horizontal
         self.rect.y += self.vertical
@@ -45,6 +47,6 @@ class Player(sprite.Sprite):
         pass
 
     def draw(self, screen):
-        screen.blit(self.image, (self.rect.x, self.rect.y))
+        screen.blit(self.image, (self.rect.x * WIDTH, self.rect.y * HEIGHT))
 
 
