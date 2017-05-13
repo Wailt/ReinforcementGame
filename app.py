@@ -3,8 +3,8 @@ from pygame import *
 
 from time import time
 
-from environment import Environment
-from event_handler import event_handler
+from environment.environment import Environment
+from event_handler.event_handler import event_handler
 from characters.sceleton import Sceleton
 
 WIN_WIDTH = 400
