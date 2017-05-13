@@ -40,8 +40,7 @@ def main():
     timer.tick(10)
 
     step = 0
-    group = [Player(npr.randint(10), npr.randint(10), 100) for i in range(10)]
-    group[0].image.fill(Color(0, 100, 0))
+    group = [Player(npr.randint(10), npr.randint(10), 100, img='img/warrior_1.png') for i in range(10)]
     try:
         while 1:
             step += 1
