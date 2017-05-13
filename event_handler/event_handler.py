@@ -18,7 +18,7 @@ def group_handler(e, player, group):
     if e.type == KEYDOWN:
         if e.key == K_e:
             for g in group:
-                metric = np.max([player.rect.x - g.rect.x, player.rect.y - g.rect.y])
+                metric = np.max(np.fabs([player.rect.x - g.rect.x, player.rect.y - g.rect.y]))
                 if metric <= 1:
                     if player != g:
                         player.attack(g)
