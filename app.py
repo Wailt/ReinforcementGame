@@ -3,20 +3,17 @@ from pygame import *
 
 from time import time
 
-
 import numpy.random as npr
 
 from characters.player import Player
 from environment.environment import Environment
 from event_handler.event_handler import event_handler, group_handler
 
-WIN_WIDTH = 960
-WIN_HEIGHT = 480
-DISPLAY = (WIN_WIDTH, WIN_HEIGHT)
-BACKGROUND_COLOR = "#FFFFFF"
+from config import *
 
 
 def main():
+    print("GOOD LUCK HAVE FUN!")
     # Initializing PyGame
     pygame.init()
 
@@ -33,16 +30,16 @@ def main():
     background.fill(Color(BACKGROUND_COLOR))
 
     # Game field
-    field = Environment(20, 10)
+    field = Environment(ENV_WIDTH_CELLS, ENV_HEIGHT_CELLS)
 
     begin_time = time()
     timer = pygame.time.Clock()
     timer.tick(10)
 
     step = 0
-    group = [Player(startX=npr.randint(10),
-                    startY=npr.randint(10),
-                    health_points=100,
+    group = [Player(startX=npr.randint(ENV_WIDTH_CELLS),
+                    startY=npr.randint(ENV_HEIGHT_CELLS),
+                    health_points=HP,
                     img='img/warrior_1.png') for i in range(10)]
     try:
         while 1:
@@ -56,14 +53,14 @@ def main():
             for g in group:
                 g.update()
                 g.draw(screen)
-            #print('step:', step/(time() - begin_time))
-            #print(group[0].vertical)
+
             group = [i for i in group if i.flag != 'delete']
 
     except Exception as e:
-        print('step:', step)
-        print('time:', time() - begin_time)
-        raise e
+        print('Time:', time() - begin_time)
+        print("THX FOR THE GAME")
+
+        exit()
 
 
 if __name__ == "__main__":

@@ -3,25 +3,24 @@ from pygame import *
 
 import numpy.random as npr
 
-WIDTH = 48
-HEIGHT = 48
+from config import CELL_WIDTH, CELL_HEIGHT
 
 
 # One cell for game field
 class Cell(Sprite):
-    def __init__(self, x, y, img=None):
+    def __init__(self, width, height, img=None):
         Sprite.__init__(self)
-        self.x = x
-        self.y = y
+        self.x = width
+        self.y = height
 
         #image for cell
-        self.image = Surface((WIDTH, HEIGHT))
+        self.image = Surface((CELL_WIDTH, CELL_HEIGHT))
         if img:
             self.image = image.load(img)
         else:
             self.image.fill(Color(0, npr.randint(255), 0))
 
-        self.rect = Rect(int(self.x * WIDTH), int(self.y * HEIGHT), WIDTH, HEIGHT)
+        self.rect = Rect(int(self.x * CELL_WIDTH), int(self.y * CELL_HEIGHT), CELL_WIDTH, CELL_HEIGHT)
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))

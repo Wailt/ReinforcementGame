@@ -1,11 +1,5 @@
-import pygame
 from pygame import *
-
-
-MOVE_SPEED = 7
-WIDTH = 48
-HEIGHT = 48
-COLOR = "#888888"
+from config import *
 
 
 class Player(sprite.Sprite):
@@ -17,7 +11,7 @@ class Player(sprite.Sprite):
         # Initial location
         self.x = startX
         self.y = startY
-        self.rect = Rect(self.x, self.y, WIDTH, HEIGHT)
+        self.rect = Rect(self.x, self.y, PLAYER_WIDTH, PLAYER_HEIGHT)
 
         # Moving direction
         self.horizontal = 0
@@ -30,7 +24,7 @@ class Player(sprite.Sprite):
         if img:
             self.image = image.load(img)
         else:
-            self.image = Surface((WIDTH, HEIGHT))
+            self.image = Surface((PLAYER_WIDTH, PLAYER_HEIGHT))
             self.image.fill(Color(COLOR))
 
         # Flag: None, 'commander', 'delete'
@@ -40,7 +34,7 @@ class Player(sprite.Sprite):
         self.move()
 
     def move(self):
-        # Don't go out from border
+        # Don't go out from borders
         if (self.rect.x == 0 and self.horizontal == -1) or (self.rect.x == 19 and self.horizontal == 1):
             self.horizontal = 0
         if (self.rect.y == 0 and self.vertical == -1) or (self.rect.y == 9 and self.vertical == 1):
@@ -58,6 +52,6 @@ class Player(sprite.Sprite):
         pass
 
     def draw(self, screen):
-        screen.blit(self.image, (self.rect.x * WIDTH, self.rect.y * HEIGHT))
+        screen.blit(self.image, (self.rect.x * PLAYER_WIDTH, self.rect.y * PLAYER_HEIGHT))
 
 
