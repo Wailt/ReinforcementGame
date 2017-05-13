@@ -5,7 +5,7 @@ from time import time
 
 from environment import Environment
 from event_handler import event_handler
-from sceleton import Sceleton
+from characters.sceleton import Sceleton
 
 WIN_WIDTH = 400
 WIN_HEIGHT = 400
