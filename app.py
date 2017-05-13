@@ -9,7 +9,9 @@ from characters.player import Player
 from characters.brain import Brain
 
 from environment.environment import Environment
-from event_handler.event_handler import event_handler, group_handler
+from event_handler.event_handler import event_handler
+
+from buttons.button import Button
 
 from config import *
 
@@ -25,8 +27,8 @@ def main():
 
     begin_time = time()
     timer = pygame.time.Clock()
-    timer.tick(10)
 
+    button = Button(ENV_WIDTH_CELLS, 0)
     brain_one = Brain(identifier=1)
     brain_two = Brain(identifier=2)
 
@@ -34,22 +36,21 @@ def main():
                     startX=npr.randint(ENV_WIDTH_CELLS/2),
                     startY=npr.randint(ENV_HEIGHT_CELLS/2),
                     health_points=HP,
-                    brain = brain_one,
+                    brain = Brain(identifier=1),
                     img='img/warrior_2.png') for i in range(15)]
 
     group_two = [Player(field=field,
                     startX=npr.randint(ENV_WIDTH_CELLS/2, ENV_WIDTH_CELLS),
                     startY=npr.randint(ENV_HEIGHT_CELLS/2, ENV_HEIGHT_CELLS),
                     health_points=HP,
-                    brain = brain_two,
+                    brain = Brain(identifier=2),
                     img='img/warriorNew_1.png') for i in range(15)]
 
     try:
         while 1:
-
+            timer.tick(10)
             for evt in pygame.event.get():
-                pass
-                #event_handler(evt, group_one[0])
+                event_handler(evt, button)
                 #group_handler(evt, (group_one + group_two)[0], group_one + group_two)
 
             pygame.display.update()
@@ -63,7 +64,9 @@ def main():
 
             group_one = [i for i in group_one if i.flag != 'delete']
             group_two = [i for i in group_two if i.flag != 'delete']
-            sleep(0.25)
+
+            button.draw(screen)
+
     except Exception as e:
         print('Time:', time() - begin_time)
         print("THX FOR THE GAME!")

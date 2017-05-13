@@ -51,7 +51,9 @@ class Player(sprite.Sprite):
 
     def implement_dec_list(self, group):
         dec = self.dec_list[0]
-        self.dec_list = tuple(self.dec_list[1:])
+        if dec != 'move':
+            self.dec_list = tuple(self.dec_list[1:])
+
         res = 0
         if dec == 'attack':
             for g in group:
@@ -62,11 +64,12 @@ class Player(sprite.Sprite):
             oponent = sorted([g for g in group if self.brain.identifier != g.brain.identifier],
                    key=lambda x: np.max(np.fabs([self.rect.x - x.rect.x, self.rect.y - x.rect.y])))
             if oponent:
-                #print('oponent')
-                self.horizontal = ((oponent[0].rect.x - self.rect.x) >= 0) * 2 - 1
-                self.vertical = ((oponent[0].rect.y - self.rect.y) >= 0) * 2 - 1
-                #print(self.horizontal, self.vertical)
-                res = (abs(self.horizontal) + abs(self.horizontal))/50
+                if max(np.abs([(self.rect.x - oponent[0].rect.x), (self.rect.y - oponent[0].rect.y)])) <= 1:
+                    self.dec_list = tuple(self.dec_list[1:])
+                else:
+                    self.horizontal = (((oponent[0].rect.x - self.rect.x) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
+                    self.vertical = (((oponent[0].rect.y - self.rect.y) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
+                    res = (abs(self.horizontal) + abs(self.horizontal))/50
             else:
                 self.horizontal = npr.randint(0, 3) - 1
                 self.vertical = npr.randint(0, 3) - 1

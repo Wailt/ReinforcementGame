@@ -1,19 +1,15 @@
 from pygame.constants import *
+from pygame import *
 import numpy as np
+import numpy.random as npr
 
 
-def event_handler(e, player):
+def event_handler(e, button):
     if e.type == QUIT:
         raise (SystemExit, "QUIT")
-    if e.type == KEYDOWN:
-        if e.key == K_RIGHT:
-            player.horizontal = 1
-        elif e.key == K_LEFT:
-            player.horizontal = -1
-        elif e.key == K_UP:
-            player.vertical = -1
-        elif e.key == K_DOWN:
-            player.vertical = 1
+    if e.type == MOUSEBUTTONDOWN:
+        if button.rect.collidepoint(mouse.get_pos()):
+            button.image.fill(Color(200, 200, 0))
 
 
 def group_handler(e, player, group):

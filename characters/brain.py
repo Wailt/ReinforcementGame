@@ -1,7 +1,7 @@
 from characters.strategy import Strategy
-import numpy.random as npr
+import numpy as np
 TEMP = 100
-METRICS = lambda one, two: ((one.x - two.x)**2 + (one.y - two.y)**2)  ** (0.5)
+METRICS = lambda one, two: np.abs([(one.x - two.x), (one.y - two.y)])
 init = ['move', 'attack', 'pass']
 class Brain():
     def __init__(self, decisions=init, identifier=0):
@@ -15,7 +15,6 @@ class Brain():
 
 
     def count_loss(self, res, strategy_name):
-        #self.strategies[strategy_name].loss
         eval_loss = self.strategies[strategy_name].loss(res)
         self.strategies[strategy_name].dec_weights[self.last] += eval_loss / TEMP
         for key in self.strategies[strategy_name].dec_weights:
