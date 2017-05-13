@@ -3,8 +3,8 @@ from pygame import *
 
 from time import time
 
-from ReinforcementGame.environment.environment import Environment
-from ReinforcementGame.event_handler.event_handler import event_handler
+from environment import Environment
+from event_handler import event_handler
 
 display = (400, 400)
 bg_color = "#FFFFFF"
