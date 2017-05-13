@@ -7,7 +7,7 @@ HEIGHT = 48
 COLOR = "#888888"
 
 
-class Sceleton(sprite.Sprite):
+class Player(sprite.Sprite):
     WIDTH = 48
     HEIGHT = 48
 

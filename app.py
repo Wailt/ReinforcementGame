@@ -5,7 +5,7 @@ from time import time
 
 from environment.environment import Environment
 from event_handler.event_handler import event_handler
-from characters.player import Sceleton
+from characters.player import Player
 
 WIN_WIDTH = 400
 WIN_HEIGHT = 400
@@ -37,7 +37,7 @@ def main():
     timer.tick(100)
 
     step = 0
-    group = [Sceleton(0, 0, 100)]
+    group = [Player(0, 0, 100)]
 
     try:
         while 1:
