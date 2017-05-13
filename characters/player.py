@@ -3,6 +3,8 @@ from pygame import *
 from characters.stats import Stats
 from config import *
 
+import numpy as np
+import numpy.random as npr
 WIDTH = 48
 HEIGHT = 48
 
@@ -38,15 +40,44 @@ class Player(sprite.Sprite):
         # Flag: None, 'commander', 'delete'
         self.flag = None
 
+        self.dec_list = None
+
     def update(self, npc, world):
         self.move()
         self.update_skills()
-        self.brain.decide(npc, world)
+        if not self.dec_list:
+            self.dec_list = self.brain.decide(npc, world)
+        self.implement_dec_list(world)
 
     def update_skills(self):
         for key in self.stats.skills:
             self.stats.skills[key] += self.stats.skills_upgrade[key]
             self.stats.skills_upgrade[key] = 0
+
+    def implement_dec_list(self, group):
+        dec = self.dec_list[0]
+        self.dec_list = tuple(self.dec_list[1:])
+
+        if dec == 'attack':
+            for g in group:
+                if np.max(np.fabs([self.rect.x - g.rect.x, self.rect.y - g.rect.y])) <= 1:
+                    if self != g and self.brain.identifier != g.brain.identifier:
+                        self.attack(g)
+        elif dec == 'move':
+            oponent = sorted([g for g in group if self.brain.identifier != g.brain.identifier],
+                   key=lambda x: np.max(np.fabs([self.rect.x - x.rect.x, self.rect.y - x.rect.y])))
+            if oponent:
+                self.horizontal = ((oponent[0].rect.x - self.rect.x) > 0) * 2 - 1
+                self.vertical = ((oponent[0].rect.y - self.rect.y) > 0) * 2 - 1
+            else:
+                pass
+                self.horizontal = npr.randint(0, 3) - 1
+                self.vertical = npr.randint(0, 3) - 1
+        elif dec == 'pass':
+            pass
+
+
+
 
     def move(self):
         # Don't go out from border

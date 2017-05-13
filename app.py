@@ -1,7 +1,7 @@
 import pygame
 from pygame import *
 
-from time import time
+from time import time, sleep
 
 import numpy.random as npr
 
@@ -40,28 +40,38 @@ def main():
 
     step = 0
 
-    brain = Brain()
+    brain_one = Brain(identifier=1)
+    brain_two = Brain(identifier=2)
 
-    group = [Player(startX=npr.randint(ENV_WIDTH_CELLS),
-                    startY=npr.randint(ENV_HEIGHT_CELLS),
+    group_one = [Player(startX=npr.randint(ENV_WIDTH_CELLS/2),
+                    startY=npr.randint(ENV_HEIGHT_CELLS/2),
                     health_points=HP,
-                    brain = brain,
-                    img='img/warrior_1.png') for i in range(10)]
+                    brain = brain_one,
+                    img='img/warrior_2.png') for i in range(10)]
+
+    group_two = [Player(startX=npr.randint(ENV_WIDTH_CELLS/2, ENV_WIDTH_CELLS),
+                    startY=npr.randint(ENV_HEIGHT_CELLS/2, ENV_HEIGHT_CELLS),
+                    health_points=HP,
+                    brain = brain_two,
+                    img='img/warriorNew_1.png') for i in range(10)]
+
     try:
         while 1:
             step += 1
             for evt in pygame.event.get():
-                event_handler(evt, group[0])
-                group_handler(evt, group[0], group)
+                pass
+                #event_handler(evt, group_one[0])
+                #group_handler(evt, (group_one + group_two)[0], group_one + group_two)
 
             pygame.display.update()
             field.draw(screen)
-            for g in group:
-                g.update(g, group)
+            for g in group_one + group_two:
+                g.update(g, group_one + group_two)
                 g.draw(screen)
 
-            group = [i for i in group if i.flag != 'delete']
-
+            group_one = [i for i in group_one if i.flag != 'delete']
+            group_two = [i for i in group_two if i.flag != 'delete']
+            sleep(1)
     except Exception as e:
         print('Time:', time() - begin_time)
         print("THX FOR THE GAME!")
