@@ -58,7 +58,7 @@ def main():
 
     except Exception as e:
         print('Time:', time() - begin_time)
-        print("THX FOR THE GAME")
+        print("THX FOR THE GAME!")
 
         exit()
 
