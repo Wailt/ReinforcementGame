@@ -19,3 +19,5 @@ class Stats:
                         "y_velosity" : lambda: self.attributes['athletics'] + self.skills['agility'],
                         "force" : lambda: self.attributes['strength'] + self.skills['fight'],
                         "mass" : lambda: self.attributes['stamina'] + self.skills['defence']}
+
+        self.skills_upgrade = {key : 0 for key in self.skills}

@@ -1,6 +1,8 @@
 import pygame
 from pygame import *
 
+import numpy as np
+from stats import Stats
 
 MOVE_SPEED = 7
 WIDTH = 48
@@ -28,6 +30,9 @@ class Player(sprite.Sprite):
         # Health points
         self.health_points = health_points
 
+        # Statistics
+        self.stats = Stats()
+
         # Load Image on the Environment
         if img:
             self.image = image.load(img)
@@ -40,7 +45,13 @@ class Player(sprite.Sprite):
 
     def update(self, npc, world):
         self.move()
+        self.update_skills()
         self.brain.decide(npc, world)
+        
+    def update_skills(self):
+        for key in self.stats.skills:
+            self.stats.skills[key] += self.stats.skills_upgrade[key]
+            self.stats.skills_upgrade[key] = 0
 
     def move(self):
         # Don't go out from border
@@ -52,10 +63,20 @@ class Player(sprite.Sprite):
         self.rect.x += self.horizontal
         self.rect.y += self.vertical
 
+        temp = 10 * float(self.stats.skills["athletics"])
+        self.stats.skills_upgrade["athletics"] = (abs(self.horizontal) + abs(self.vertical)) / temp
+        #self.stats.skills["athletics"] += self.stats.skills_upgrade["athletics"]
+
         self.horizontal = self.vertical = 0
 
     def attack(self, g):
-        g.flag = 'delete'
+        damage = self.stats.skills["fight"] * self.stats.attributes["strength"]
+        # damage = 45
+        g.health_points -= damage
+        if g.health_points <= 0:
+            g.flag = 'delete'
+        self.stats.skills_upgrade["fight"] = 1 / damage # self.stats.skills["fight"]
+        #self.stats.skills["fight"] += self.stats.skills_upgrade["fight"]
 
     def defend(self):
         pass

@@ -60,7 +60,7 @@ def main():
                 g.update(g, group)
                 g.draw(screen)
             #print('step:', step/(time() - begin_time))
-            #print(group[0].vertical)
+            print(group[0].stats.skills["fight"], " , ", group[0].stats.skills["athletics"])
             group = [i for i in group if i.flag != 'delete']
 
     except Exception as e:
