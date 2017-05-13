@@ -5,7 +5,7 @@ temperature = 10
 
 
 class Strategy:
-    def __init__(self, loss, decisions=[], n=2):
+    def __init__(self, loss, decisions=[], n=3):
         self.decisions = decisions
         self.loss = loss
         self.size = n

@@ -1,20 +1,24 @@
 from pygame import *
 
 from characters.stats import Stats
-from config import *
+from config import ENV_WIDTH_CELLS, ENV_HEIGHT_CELLS, PLAYER_WIDTH, PLAYER_HEIGHT
 
 import numpy as np
 import numpy.random as npr
 WIDTH = 48
 HEIGHT = 48
 
+
 class Player(sprite.Sprite):
 
-
-    def __init__(self, startX, startY, health_points, brain, img=None):
+    def __init__(self, field, startX, startY, health_points, brain, img=None):
         sprite.Sprite.__init__(self)
 
-    # Initial location
+        # Field to play
+        self.field = field
+        self.field.map[startX][startY].occupied = True
+
+        # Initial location
         self.x = startX
         self.y = startY
         self.rect = Rect(self.x, self.y, WIDTH, HEIGHT)
@@ -58,7 +62,6 @@ class Player(sprite.Sprite):
     def implement_dec_list(self, group):
         dec = self.dec_list[0]
         self.dec_list = tuple(self.dec_list[1:])
-
         res = 0
         if dec == 'attack':
             for g in group:
@@ -84,17 +87,21 @@ class Player(sprite.Sprite):
 
 
 
-
-
     def move(self):
         # Don't go out from border
-        if (self.rect.x == 0 and self.horizontal == -1) or (self.rect.x == 19 and self.horizontal == 1):
+        if (self.rect.x == 0 and self.horizontal == -1) or (self.rect.x == ENV_WIDTH_CELLS - 1 and self.horizontal == 1):
             self.horizontal = 0
-        if (self.rect.y == 0 and self.vertical == -1) or (self.rect.y == 9 and self.vertical == 1):
+        if (self.rect.y == 0 and self.vertical == -1) or (self.rect.y == ENV_HEIGHT_CELLS - 1 and self.vertical == 1):
             self.vertical = 0
 
+        if self.field.map[self.rect.x + self.horizontal][self.rect.y + self.vertical].occupied:
+            self.horizontal = 0
+            self.vertical = 0
+
+        self.field.map[self.rect.x][self.rect.y].occupied = False
         self.rect.x += self.horizontal
         self.rect.y += self.vertical
+        self.field.map[self.rect.x][self.rect.y].occupied = True
 
         temp = 10 * float(self.stats.skills["athletics"])
         self.stats.skills_upgrade["athletics"] = (abs(self.horizontal) + abs(self.vertical)) / temp
@@ -115,6 +122,7 @@ class Player(sprite.Sprite):
         self.health_points -= damage - blocked_damage
         if self.health_points <= 0:
             self.flag = 'delete'
+            self.field.map[self.rect.x][self.rect.y].occupied = False
         self.stats.skills_upgrade["defence"] = blocked_damage / float(self.stats.skills["defence"])
         return damage - blocked_damage
 

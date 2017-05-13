@@ -45,34 +45,23 @@ def main():
     brain_three = Brain(identifier=3)
     brain_four = Brain(identifier=4)
 
-    group_one = [Player(startX=npr.randint(ENV_WIDTH_CELLS/2),
+    group_one = [Player(field=field,
+                    startX=npr.randint(ENV_WIDTH_CELLS/2),
                     startY=npr.randint(ENV_HEIGHT_CELLS/2),
                     health_points=HP,
                     brain = brain_one,
                     img='img/warrior_2.png') for i in range(15)]
 
-    group_two = [Player(startX=npr.randint(ENV_WIDTH_CELLS/2, ENV_WIDTH_CELLS),
+    group_two = [Player(field=field,
+                    startX=npr.randint(ENV_WIDTH_CELLS/2, ENV_WIDTH_CELLS),
                     startY=npr.randint(ENV_HEIGHT_CELLS/2, ENV_HEIGHT_CELLS),
                     health_points=HP,
                     brain = brain_two,
                     img='img/warriorNew_1.png') for i in range(15)]
 
-    group_three = [Player(startX=npr.randint(ENV_WIDTH_CELLS/2),
-                    startY=npr.randint(ENV_HEIGHT_CELLS/2, ENV_HEIGHT_CELLS),
-                    health_points=HP,
-                    brain = brain_three,
-                    img='img/warrior_pink.png') for i in range(15)]
-
-    group_four = [Player(startX=npr.randint(ENV_WIDTH_CELLS/2, ENV_WIDTH_CELLS),
-                    startY=npr.randint(ENV_HEIGHT_CELLS/2),
-                    health_points=HP,
-                    brain = brain_four,
-                    img='img/warrior_1.png') for i in range(15)]
-
-
     try:
         while 1:
-            step += 1
+
             for evt in pygame.event.get():
                 pass
                 #event_handler(evt, group_one[0])
@@ -84,7 +73,7 @@ def main():
             for g in group_one + group_two:# + group_three + group_four:
                 g.update(g, group_one + group_two)# + group_three + group_four)
                 g.draw(screen)
-            #print(group_one[0].brain.strategies['init'].dec_weights)
+            # print(group_one[0].brain.strategies['init'].dec_weights)
             #print(step)
             group_one = [i for i in group_one if i.flag != 'delete']
             group_two = [i for i in group_two if i.flag != 'delete']
