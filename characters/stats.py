@@ -15,7 +15,7 @@ class Stats:
                            "agility" : np.random.uniform(1, 2),
                            "stamina" : np.random.uniform(1, 2)}
 
-        self.phisics = {"x_velosity" : lambda (): self.attributes['athletics'] + self.skills['agility'],
-                        "y_velosity" : lambda (): self.attributes['athletics'] + self.skills['agility'],
-                        "force" : lambda (): self.attributes['strength'] + self.skills['fight'],
-                        "mass" : lambda (): self.attributes['stamina'] + self.skills['defence']}
+        self.phisics = {"x_velosity" : lambda: self.attributes['athletics'] + self.skills['agility'],
+                        "y_velosity" : lambda: self.attributes['athletics'] + self.skills['agility'],
+                        "force" : lambda: self.attributes['strength'] + self.skills['fight'],
+                        "mass" : lambda: self.attributes['stamina'] + self.skills['defence']}
