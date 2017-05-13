@@ -42,7 +42,7 @@ def main():
     try:
         while 1:
             for evt in pygame.event.get():
-                event_handler(evt)
+                event_handler(evt, group[0])
             step += 1
             pygame.display.update()
             field.draw(screen)
