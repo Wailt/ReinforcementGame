@@ -3,6 +3,8 @@ from pygame import *
 
 from time import time
 
+from ReinforcementGame.environment.environment import Environment
+
 display = (400, 400)
 bg_color = "#FFFFFF"
 
@@ -15,6 +17,9 @@ def main():
     bg.fill(Color(bg_color))
 
     timer = pygame.time.Clock()
+
+    #game field
+    field = Environment(10, 10)
 
     step = 0
     begin_time = time()

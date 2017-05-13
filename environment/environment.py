@@ -6,3 +6,8 @@ class Environment():
         self.x = x
         self.y = y
         self.map = [[Cell(i, j) for j in range(y)] for i in range(x)]
+
+    def draw(self, screen):
+        for i in self.map:
+            for j in i:
+                j.draw(screen)
