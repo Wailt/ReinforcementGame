@@ -4,6 +4,7 @@ from pygame import *
 from time import time
 
 from ReinforcementGame.environment.environment import Environment
+from ReinforcementGame.event_handler.event_handler import event_handler
 
 display = (400, 400)
 bg_color = "#FFFFFF"
@@ -26,6 +27,8 @@ def main():
     timer.tick(100)
     try:
         while 1:
+            for e in pygame.event.get():
+                event_handler(e)
             step += 1
             pygame.display.update()
             field.draw(screen)
