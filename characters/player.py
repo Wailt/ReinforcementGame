@@ -36,6 +36,10 @@ class Player(sprite.Sprite):
 
         # Flag: None, 'commander', 'delete'
         self.flag = None
+
+    def update(self):
+        self.move()
+
     def move(self):
         self.rect.x += self.horizontal
         self.rect.y += self.vertical

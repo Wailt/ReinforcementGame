@@ -37,7 +37,7 @@ def main():
 
     begin_time = time()
     timer = pygame.time.Clock()
-    timer.tick(100)
+    timer.tick(10)
 
     step = 0
     group = [Player(npr.randint(10), npr.randint(10), 100) for i in range(10)]
@@ -52,9 +52,10 @@ def main():
             pygame.display.update()
             field.draw(screen)
             for g in group:
+                g.update()
                 g.draw(screen)
             print('step:', step/(time() - begin_time))
-
+            print(group[0].vertical)
             group = [i for i in group if i.flag != 'delete']
 
     except Exception as e:
