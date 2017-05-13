@@ -41,7 +41,7 @@ def main():
 
     step = 0
     group = [Player(npr.randint(10), npr.randint(10), 100) for i in range(10)]
-
+    group[0].image.fill(Color(0, 100, 0))
     try:
         while 1:
             step += 1
