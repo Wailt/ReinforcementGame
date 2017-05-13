@@ -27,7 +27,7 @@ class Sceleton(sprite.Sprite):
         if img:
             self.image = image.load(img)
         else:
-            self.image.fill(color) # Color - ?
+            self.image.fill(color)  # Color - ?
             self.rect = Rect(int(self.x) * WIDTH, int(self.y) * WIDTH, WIDTH, HEIGHT)
 
     def go(self):

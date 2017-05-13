@@ -1,4 +1,4 @@
-from ReinforcementGame.environment.cell import Cell
+from cell import Cell
 
 
 class Environment():
