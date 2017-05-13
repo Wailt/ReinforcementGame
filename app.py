@@ -21,8 +21,9 @@ def main():
     timer.tick(100)
     try:
         while 1:
-                pygame.display.update()
-                print('step:', step/(time() - begin_time))
+            step += 1
+            pygame.display.update()
+            print('step:', step/(time() - begin_time))
     except Exception as e:
         print('step:', step)
         print('time:', time() - begin_time)
