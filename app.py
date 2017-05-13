@@ -8,7 +8,7 @@ import numpy.random as npr
 
 from characters.player import Player
 from environment.environment import Environment
-from event_handler.event_handler import event_handler
+from event_handler.event_handler import event_handler, group_handler
 
 WIN_WIDTH = 480
 WIN_HEIGHT = 480
@@ -47,15 +47,15 @@ def main():
             step += 1
             for evt in pygame.event.get():
                 event_handler(evt, group[0])
-                #group_handler(evt, group[0], group)
+                group_handler(evt, group[0], group)
 
             pygame.display.update()
             field.draw(screen)
             for g in group:
                 g.update()
                 g.draw(screen)
-            print('step:', step/(time() - begin_time))
-            print(group[0].vertical)
+            #print('step:', step/(time() - begin_time))
+            #print(group[0].vertical)
             group = [i for i in group if i.flag != 'delete']
 
     except Exception as e:

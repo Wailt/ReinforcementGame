@@ -20,5 +20,6 @@ def group_handler(e, player, group):
             for g in group:
                 metric = np.max([player.rect.x - g.rect.x, player.rect.y - g.rect.y])
                 if metric <= 1:
-                    player.attack(g)
-                    break
+                    if player != g:
+                        player.attack(g)
+                        break

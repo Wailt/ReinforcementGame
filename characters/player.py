@@ -44,8 +44,11 @@ class Player(sprite.Sprite):
         self.rect.x += self.horizontal
         self.rect.y += self.vertical
 
-    def attack(self):
-        pass
+        self.horizontal = self.vertical = 0
+
+
+    def attack(self, g):
+        g.flag = 'delete'
 
     def defend(self):
         pass
