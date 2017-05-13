@@ -5,3 +5,6 @@ class Strategy:
         self.loss = loss
         self.dec_weights = dict()
 
+    def decide(self, npc, world):
+        pass
+
