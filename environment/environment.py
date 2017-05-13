@@ -2,7 +2,7 @@ from environment.cell import Cell
 
 
 # Game Field
-class Environment():
+class Environment:
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -12,3 +12,4 @@ class Environment():
         for i in self.map:
             for j in i:
                 j.draw(screen)
+

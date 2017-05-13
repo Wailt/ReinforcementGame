@@ -1,6 +1,7 @@
 from pygame.constants import *
 import numpy as np
 
+
 def event_handler(e, player):
     if e.type == QUIT:
         raise (SystemExit, "QUIT")
@@ -13,6 +14,7 @@ def event_handler(e, player):
             player.vertical = -1
         elif e.key == K_DOWN:
             player.vertical = 1
+
 
 def group_handler(e, player, group):
     if e.type == KEYDOWN:

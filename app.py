@@ -10,7 +10,7 @@ from characters.player import Player
 from environment.environment import Environment
 from event_handler.event_handler import event_handler, group_handler
 
-WIN_WIDTH = 480
+WIN_WIDTH = 960
 WIN_HEIGHT = 480
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)
 BACKGROUND_COLOR = "#FFFFFF"
@@ -33,14 +33,17 @@ def main():
     background.fill(Color(BACKGROUND_COLOR))
 
     # Game field
-    field = Environment(10, 10)
+    field = Environment(20, 10)
 
     begin_time = time()
     timer = pygame.time.Clock()
     timer.tick(10)
 
     step = 0
-    group = [Player(npr.randint(10), npr.randint(10), 100, img='img/warrior_1.png') for i in range(10)]
+    group = [Player(startX=npr.randint(10),
+                    startY=npr.randint(10),
+                    health_points=100,
+                    img='img/warrior_1.png') for i in range(10)]
     try:
         while 1:
             step += 1

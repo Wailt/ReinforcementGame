@@ -1,7 +1,6 @@
 import pygame
 from pygame import *
 
-import numpy as np
 
 MOVE_SPEED = 7
 WIDTH = 48
@@ -13,12 +12,12 @@ class Player(sprite.Sprite):
     WIDTH = 48
     HEIGHT = 48
 
-    def __init__(self, x, y,  health_points, img=None):
+    def __init__(self, startX, startY,  health_points, img=None):
         sprite.Sprite.__init__(self)
         # Initial location
-        self.startX = x
-        self.startY = y
-        self.rect = Rect(x, y, WIDTH, HEIGHT)
+        self.x = startX
+        self.y = startY
+        self.rect = Rect(self.x, self.y, WIDTH, HEIGHT)
 
         # Moving direction
         self.horizontal = 0
@@ -41,11 +40,16 @@ class Player(sprite.Sprite):
         self.move()
 
     def move(self):
+        # Don't go out from border
+        if (self.rect.x == 0 and self.horizontal == -1) or (self.rect.x == 19 and self.horizontal == 1):
+            self.horizontal = 0
+        if (self.rect.y == 0 and self.vertical == -1) or (self.rect.y == 9 and self.vertical == 1):
+            self.vertical = 0
+
         self.rect.x += self.horizontal
         self.rect.y += self.vertical
 
         self.horizontal = self.vertical = 0
-
 
     def attack(self, g):
         g.flag = 'delete'
