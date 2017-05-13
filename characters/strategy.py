@@ -38,7 +38,7 @@ class Strategy:
             cumsum += np.exp(temperature * self.dec_weights[key]) / norma
             if cumsum >= level:
                 return key
-        return self.dec_weights.keys()[0]
+        return list(self.dec_weights.keys())[0]
 
 
 # return {'moove': ('random', decision['moove'][''])}

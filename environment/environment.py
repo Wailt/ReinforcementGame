@@ -1,7 +1,8 @@
-from cell import Cell
-
 
 # Game Field
+from environment.cell import Cell
+
+
 class Environment:
     def __init__(self, width, height):
         self.x = width

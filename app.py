@@ -5,7 +5,9 @@ from time import time
 
 import numpy.random as npr
 
-from characters.player import Player, Brain
+from characters.player import Player
+from characters.brain import Brain
+
 from environment.environment import Environment
 from event_handler.event_handler import event_handler, group_handler
 
@@ -55,7 +57,7 @@ def main():
             pygame.display.update()
             field.draw(screen)
             for g in group:
-                g.update()
+                g.update(g, group)
                 g.draw(screen)
 
             group = [i for i in group if i.flag != 'delete']
@@ -63,7 +65,7 @@ def main():
     except Exception as e:
         print('Time:', time() - begin_time)
         print("THX FOR THE GAME!")
-
+        raise e
         exit()
 
 

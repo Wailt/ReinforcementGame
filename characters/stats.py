@@ -6,7 +6,7 @@ class Stats:
         # Character's skills
         # Will change (improve) during time
         self.skills = {"fight" : 1,
-                       "deffence" : 1,
+                       "defence" : 1,
                        "athletics" : 1}
 
         # Character's attributes
