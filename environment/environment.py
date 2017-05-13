@@ -1,4 +1,4 @@
-from environment.cell import Cell
+from cell import Cell
 
 
 # Game Field
