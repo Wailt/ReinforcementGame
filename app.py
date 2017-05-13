@@ -5,7 +5,7 @@ from time import time
 
 import numpy.random as npr
 
-from characters.player import Player
+from characters.player import Player, Brain
 from environment.environment import Environment
 from event_handler.event_handler import event_handler, group_handler
 
@@ -37,9 +37,13 @@ def main():
     timer.tick(10)
 
     step = 0
+
+    brain = Brain()
+
     group = [Player(startX=npr.randint(ENV_WIDTH_CELLS),
                     startY=npr.randint(ENV_HEIGHT_CELLS),
                     health_points=HP,
+                    brain = brain,
                     img='img/warrior_1.png') for i in range(10)]
     try:
         while 1:
