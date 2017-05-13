@@ -3,12 +3,15 @@ from pygame import *
 
 from time import time
 
+
+import numpy.random as npr
+
+from characters.player import Player
 from environment.environment import Environment
 from event_handler.event_handler import event_handler
-from characters.player import Player
 
-WIN_WIDTH = 400
-WIN_HEIGHT = 400
+WIN_WIDTH = 480
+WIN_HEIGHT = 480
 DISPLAY = (WIN_WIDTH, WIN_HEIGHT)
 BACKGROUND_COLOR = "#FFFFFF"
 
@@ -37,18 +40,23 @@ def main():
     timer.tick(100)
 
     step = 0
-    group = [Player(0, 0, 100)]
+    group = [Player(npr.randint(10), npr.randint(10), 100) for i in range(10)]
 
     try:
         while 1:
+            step += 1
             for evt in pygame.event.get():
                 event_handler(evt, group[0])
-            step += 1
+                #group_handler(evt, group[0], group)
+
             pygame.display.update()
             field.draw(screen)
             for g in group:
                 g.draw(screen)
             print('step:', step/(time() - begin_time))
+
+            group = [i for i in group if i.flag != 'delete']
+
     except Exception as e:
         print('step:', step)
         print('time:', time() - begin_time)

@@ -30,11 +30,13 @@ class Player(sprite.Sprite):
             self.image.fill(Color(100, 100, 100)) # Color - ?
             self.rect = Rect(int(self.startX) * WIDTH, int(self.startY) * WIDTH, WIDTH, HEIGHT)
 
+        self.flag = None
+
     def go(self):
         pass
 
-    def attack(self):
-        pass
+    def attack(self, g):
+        g.flag = "delete"
 
     def defend(self):
         pass
