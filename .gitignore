@@ -6,3 +6,4 @@
 .idea/modules.xml
 .idea/workspace.xml
 /characters/test.py
+*.pyc
