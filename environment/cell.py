@@ -1,6 +1,8 @@
 from pygame.sprite import Sprite
 from pygame import *
 
+import  numpy.random as npr
+
 WIDTH = 48
 HEIGHT = 48
 
@@ -15,9 +17,9 @@ class Cell(Sprite):
         if img:
             self.image = image.load(img)
         else:
-            self.image.fill(Color(0, 0, 0))
+            self.image.fill(Color(0, npr.randint(255), 0))
 
-        self.rect = Rect(int(self.x * WIDTH), int(self.y * HEIGHT))
+        self.rect = Rect(int(self.x * WIDTH), int(self.y * HEIGHT), WIDTH, HEIGHT)
 
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))

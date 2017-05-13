@@ -28,6 +28,7 @@ def main():
         while 1:
             step += 1
             pygame.display.update()
+            field.draw(screen)
             print('step:', step/(time() - begin_time))
     except Exception as e:
         print('step:', step)
