@@ -1,8 +1,5 @@
-from pygame.constants import *
 from pygame import *
 import numpy as np
-import numpy.random as npr
-
 
 def event_handler(e, button):
     if e.type == QUIT:

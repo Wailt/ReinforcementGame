@@ -1,8 +1,6 @@
 import pygame
 from pygame import *
 
-from time import time, sleep
-
 import numpy.random as npr
 
 from characters.player import Player
@@ -31,6 +29,7 @@ def main():
 
         pac_button = Button(ENV_WIDTH_CELLS, 0, info='PC')
         mode_button = Button(ENV_WIDTH_CELLS, 1, info='mode')
+        go_button = Button(5, 4, img='img/game_over2.png')
         pacman = Player(field=field,
                         startX=0,
                         startY=0,
@@ -53,18 +52,17 @@ def main():
                             brain=brains[i + 15],
                             img='img/warriorNew_1.png') for i in range(15)]
 
-
-
-
-
         while len(group_one) > 0 and len(group_two) > 0:
-            timer.tick(4)
+            timer.tick(7.5)
             for evt in pygame.event.get():
                 event_handler(evt, pac_button)
                 event_handler(evt, mode_button)
 
+
             pygame.display.update()
-            #field.update()
+            if pac_button.pushed:
+                pacman.update(pacman, group_one + group_two, mode=True)
+                pacman.draw(screen)
             field.draw(screen)
             for g in group_one + group_two + ([pacman] if pac_button.pushed and pacman.flag != 'delete' else []):
                 if g.flag == 'delete':
@@ -78,9 +76,17 @@ def main():
 
             pac_button.draw(screen)
             mode_button.draw(screen)
-            if pac_button.pushed and pacman.flag != 'delete':
-                pacman.draw(screen)
-                pacman.update(pacman, group_one + group_two, mode=True)
+
+        wait = True
+        while wait:
+            timer.tick(7)
+            go_button.draw(screen)
+            for evt in pygame.event.get():
+                event_handler(evt, go_button)
+
+            if go_button.pushed:
+                wait = False
+            pygame.display.update()
     exit()
 
 

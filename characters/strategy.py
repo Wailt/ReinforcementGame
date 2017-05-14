@@ -39,6 +39,3 @@ class Strategy:
             if cumsum >= level:
                 return key
         return list(self.dec_weights.keys())[0]
-
-
-# return {'moove': ('random', decision['moove'][''])}
