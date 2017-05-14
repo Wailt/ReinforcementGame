@@ -1,12 +1,14 @@
-import numpy as np
-import numpy.random as npr
 from pygame import *
 
 from characters.stats import Stats
 from config import ENV_WIDTH_CELLS, ENV_HEIGHT_CELLS, PLAYER_WIDTH, PLAYER_HEIGHT
 
+import numpy as np
+import numpy.random as npr
+
 
 class Player(sprite.Sprite):
+
     def __init__(self, field, startX, startY, health_points, brain, img=None, anima=[]):
         sprite.Sprite.__init__(self)
 
@@ -73,7 +75,7 @@ class Player(sprite.Sprite):
                         res = self.attack(g) / 10
         elif dec == 'move':
             oponent = sorted([g for g in group if self.brain.identifier != g.brain.identifier],
-                             key=lambda x: np.max(np.fabs([self.rect.x - x.rect.x, self.rect.y - x.rect.y])))
+                   key=lambda x: np.max(np.fabs([self.rect.x - x.rect.x, self.rect.y - x.rect.y])))
             if oponent:
                 if max(np.abs([(self.rect.x - oponent[0].rect.x), (self.rect.y - oponent[0].rect.y)])) <= 1:
                     self.dec_list = tuple(self.dec_list[1:])
@@ -81,9 +83,9 @@ class Player(sprite.Sprite):
                     self.horizontal = (((oponent[0].rect.x - self.rect.x) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
                     self.vertical = (((oponent[0].rect.y - self.rect.y) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
 
-                    # self.horizontal = self.horizontal * (mode * 2 - 1)
-                    # self.vertical = self.vertical * (mode * 2 - 1)
-                    res = (abs(self.horizontal) + abs(self.horizontal)) / 50
+                    #self.horizontal = self.horizontal * (mode * 2 - 1)
+                    #self.vertical = self.vertical * (mode * 2 - 1)
+                    res = (abs(self.horizontal) + abs(self.horizontal))/50
             else:
                 self.horizontal = npr.randint(0, 3) - 1
                 self.vertical = npr.randint(0, 3) - 1
@@ -94,8 +96,7 @@ class Player(sprite.Sprite):
 
     def move(self):
         # Don't go out from border
-        if (self.rect.x == 0 and self.horizontal == -1) or (
-                self.rect.x == ENV_WIDTH_CELLS - 1 and self.horizontal == 1):
+        if (self.rect.x == 0 and self.horizontal == -1) or (self.rect.x == ENV_WIDTH_CELLS - 1 and self.horizontal == 1):
             self.horizontal = 0
         if (self.rect.y == 0 and self.vertical == -1) or (self.rect.y == ENV_HEIGHT_CELLS - 1 and self.vertical == 1):
             self.vertical = 0
@@ -111,6 +112,7 @@ class Player(sprite.Sprite):
 
         temp = 10 * float(self.stats.skills["athletics"])
         self.stats.skills_upgrade["athletics"] = (abs(self.horizontal) + abs(self.vertical)) / temp
+
 
         # self.stats.skills["athletics"] += self.stats.skills_upgrade["athletics"]
 
@@ -141,8 +143,12 @@ class Player(sprite.Sprite):
             self.frame += 1
             screen.blit(self.image, (self.rect.x * PLAYER_WIDTH, self.rect.y * PLAYER_HEIGHT))
 
-        self.health = Rect(self.rect.x, self.rect.y, (PLAYER_WIDTH - 5) * self.health_points / self.max_hp, 5)
-        self.hp_line = Surface((int((PLAYER_WIDTH - 5) * self.health_points / self.max_hp), 5))
-        self.hp_line.fill(Color(int(255 * (1 - self.health_points / self.max_hp)),
-                                int(255 * (self.health_points / self.max_hp)), 0))
+        self.health = Rect(self.rect.x, self.rect.y, (PLAYER_WIDTH - 5) * abs(self.health_points) / self.max_hp, 5)
+        self.hp_line = Surface((int((PLAYER_WIDTH - 5) * abs(self.health_points) / self.max_hp), 5))
+        r = min(int(255 * (1 - self.health_points / self.max_hp)), 255)
+        g = max(int(255 * (self.health_points / self.max_hp)), 0)
+        self.hp_line.fill(Color(r, g, 0))
         screen.blit(self.hp_line, (self.health.x * PLAYER_WIDTH, self.health.y * PLAYER_HEIGHT))
+
+
+

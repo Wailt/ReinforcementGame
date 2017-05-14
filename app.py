@@ -62,13 +62,14 @@ def main():
             pygame.display.update()
             if pac_button.pushed:
                 pacman.update(pacman, group_one + group_two, mode=True)
-                pacman.draw(screen)
             field.draw(screen)
             for g in group_one + group_two + ([pacman] if pac_button.pushed and pacman.flag != 'delete' else []):
                 if g.flag == 'delete':
                     continue
                 if len(group_one) != 0 and len(group_two) != 0:
                     g.update(g, group_one + group_two + ([pacman] if pac_button.pushed and pacman.flag != 'delete' else []), mode=not mode_button.pushed)
+
+            for g in group_one + group_two + ([pacman] if pac_button.pushed and pacman.flag != 'delete' else []):
                 g.draw(screen)
 
             group_one = [i for i in group_one if i.flag != 'delete']
@@ -76,6 +77,10 @@ def main():
 
             pac_button.draw(screen)
             mode_button.draw(screen)
+            pygame.display.update()
+
+        for g in group_one + group_two:
+            g.draw(screen)
 
         wait = True
         while wait:
