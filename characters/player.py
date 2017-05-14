@@ -22,12 +22,17 @@ class Player(sprite.Sprite):
         self.y = startY
         self.rect = Rect(self.x, self.y, PLAYER_WIDTH, PLAYER_HEIGHT)
 
+        self.hp_line = Surface((PLAYER_WIDTH - 5, 5))
+        self.hp_line.fill(Color(0, 255, 0))
+        self.health = Rect(self.x, self.y, PLAYER_WIDTH, 5)
+
         self.brain = brain
 
         self.horizontal = 0
         self.vertical = 0
 
         self.health_points = health_points
+        self.max_hp = health_points
 
         self.stats = Stats()
 
@@ -107,6 +112,8 @@ class Player(sprite.Sprite):
 
         temp = 10 * float(self.stats.skills["athletics"])
         self.stats.skills_upgrade["athletics"] = (abs(self.horizontal) + abs(self.vertical)) / temp
+
+
         # self.stats.skills["athletics"] += self.stats.skills_upgrade["athletics"]
 
         self.horizontal = self.vertical = 0
@@ -135,5 +142,13 @@ class Player(sprite.Sprite):
             self.image = image.load(self.anima[self.frame % 2])
             self.frame += 1
             screen.blit(self.image, (self.rect.x * PLAYER_WIDTH, self.rect.y * PLAYER_HEIGHT))
+
+        self.health = Rect(self.rect.x, self.rect.y, (PLAYER_WIDTH - 5) * self.health_points / self.max_hp, 5)
+        self.hp_line = Surface((int((PLAYER_WIDTH - 5) * self.health_points / self.max_hp), 5))
+        self.hp_line.fill(Color(int(255 * (1 - self.health_points / self.max_hp)),
+                                int(255 * (self.health_points / self.max_hp)),
+                                0))
+        screen.blit(self.hp_line, (self.health.x * PLAYER_WIDTH, self.health.y * PLAYER_HEIGHT))
+
 
 
