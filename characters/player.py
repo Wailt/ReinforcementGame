@@ -1,7 +1,7 @@
 from pygame import *
 
 from characters.stats import Stats
-from config import ENV_WIDTH_CELLS, ENV_HEIGHT_CELLS, PLAYER_WIDTH, PLAYER_HEIGHT
+from config import ENV_WIDTH_CELLS, ENV_HEIGHT_CELLS, PLAYER_WIDTH, PLAYER_HEIGHT, HP_COLOUR_GREEN
 
 import numpy as np
 import numpy.random as npr
@@ -9,48 +9,30 @@ import numpy.random as npr
 
 class Player(sprite.Sprite):
 
-    def __init__(self, field, startX, startY, health_points, brain, img=None, anima=[]):
+    def __init__(self, field, x, y, health_points, brain, img, animation=[]):
         sprite.Sprite.__init__(self)
-
-        self.anima = anima
-        self.frame = 0
-
+        self.rect = Rect(x, y, PLAYER_WIDTH, PLAYER_HEIGHT)
+        self.image = image.load(img)
+        self.animation = animation
         self.field = field
-        self.field.map[startX][startY].occupied = True
-
-        self.x = startX
-        self.y = startY
-        self.rect = Rect(self.x, self.y, PLAYER_WIDTH, PLAYER_HEIGHT)
-
+        self.field.map[x][y].occupied = True
         self.hp_line = Surface((PLAYER_WIDTH - 5, 5))
-        self.hp_line.fill(Color(0, 255, 0))
-        self.health = Rect(self.x, self.y, PLAYER_WIDTH, 5)
-
+        self.hp_line.fill(Color('#00FF00'))
+        self.health = Rect(x, y, PLAYER_WIDTH, 5)
         self.brain = brain
-
         self.horizontal = 0
         self.vertical = 0
-
         self.health_points = health_points
         self.max_hp = health_points
-
         self.stats = Stats()
-
-        self.image = image.load(img)
-
-        # Flag: None, 'commander', 'delete'
         self.flag = None
-
         self.dec_list = None
-
         self.strategy_name = 'init'
 
     def update(self, npc, world, mode=False):
         if self.strategy_name != mode:
             self.strategy_name = mode
             self.dec_list = None
-        else:
-            pass
         self.move()
         self.update_skills()
         if not self.dec_list:
@@ -66,7 +48,6 @@ class Player(sprite.Sprite):
         dec = self.dec_list[0]
         if dec != 'move':
             self.dec_list = tuple(self.dec_list[1:])
-
         res = 0
         if dec == 'attack':
             for g in group:
@@ -74,14 +55,14 @@ class Player(sprite.Sprite):
                     if self != g and self.brain.identifier != g.brain.identifier:
                         res = self.attack(g) / 10
         elif dec == 'move':
-            oponent = sorted([g for g in group if self.brain.identifier != g.brain.identifier],
+            enemy = sorted([g for g in group if self.brain.identifier != g.brain.identifier],
                    key=lambda x: np.max(np.fabs([self.rect.x - x.rect.x, self.rect.y - x.rect.y])))
-            if oponent:
-                if max(np.abs([(self.rect.x - oponent[0].rect.x), (self.rect.y - oponent[0].rect.y)])) <= 1:
+            if enemy:
+                if max(np.abs([(self.rect.x - enemy[0].rect.x), (self.rect.y - enemy[0].rect.y)])) <= 1:
                     self.dec_list = tuple(self.dec_list[1:])
                 else:
-                    self.horizontal = (((oponent[0].rect.x - self.rect.x) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
-                    self.vertical = (((oponent[0].rect.y - self.rect.y) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
+                    self.horizontal = (((enemy[0].rect.x - self.rect.x) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
+                    self.vertical = (((enemy[0].rect.y - self.rect.y) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
 
                     #self.horizontal = self.horizontal * (mode * 2 - 1)
                     #self.vertical = self.vertical * (mode * 2 - 1)
@@ -136,10 +117,10 @@ class Player(sprite.Sprite):
         return damage - blocked_damage
 
     def draw(self, screen):
-        if len(self.anima) == 0:
+        if len(self.animation) == 0:
             screen.blit(self.image, (self.rect.x * PLAYER_WIDTH, self.rect.y * PLAYER_HEIGHT))
         else:
-            self.image = image.load(self.anima[self.frame % 2])
+            self.image = image.load(self.animation[self.frame % 2])
             self.frame += 1
             screen.blit(self.image, (self.rect.x * PLAYER_WIDTH, self.rect.y * PLAYER_HEIGHT))
 

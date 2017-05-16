@@ -8,6 +8,7 @@ class Cell(sprite.Sprite):
         self.cell_width = width
         self.cell_height = height
         self.occupied = False
+
         self.image = image.load(img)
         self.rect = Rect(self.cell_width * CELL_WIDTH, self.cell_height * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT)
 

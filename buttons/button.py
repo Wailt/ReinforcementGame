@@ -2,6 +2,7 @@ from pygame import *
 
 from config import *
 
+
 class Button(sprite.Sprite):
 
     def __init__(self, startX, startY, img=None, info=''):

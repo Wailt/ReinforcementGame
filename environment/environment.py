@@ -1,6 +1,7 @@
 from environment.cell import Cell
 import numpy.random as npr
 
+
 class Environment:
     def __init__(self, width, height):
         self.map = []

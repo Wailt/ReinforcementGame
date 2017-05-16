@@ -3,6 +3,8 @@ import numpy as np
 TEMP = 1
 METRICS = lambda one, two: np.abs([(one.x - two.x), (one.y - two.y)])
 init = ['move', 'attack', 'pass']
+
+
 class Brain():
     def __init__(self, decisions=init, identifier=0, n=3):
         self.identifier = identifier
