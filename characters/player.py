@@ -28,6 +28,7 @@ class Player(sprite.Sprite):
         self.flag = None
         self.dec_list = None
         self.strategy_name = 'init'
+        self.frame = 0
 
     def update(self, npc, world, mode=False):
         if self.strategy_name != mode:
