@@ -86,11 +86,13 @@ class Player(sprite.Sprite):
             self.horizontal = 0
             self.vertical = 0
 
+        # occupation
         self.field.map[self.rect.x][self.rect.y].occupied = False
         self.rect.x += self.horizontal
         self.rect.y += self.vertical
         self.field.map[self.rect.x][self.rect.y].occupied = True
 
+        # skill update
         temp = 10 * float(self.stats.skills["athletics"])
         self.stats.skills_upgrade["athletics"] = (abs(self.horizontal) + abs(self.vertical)) / temp
         self.horizontal = self.vertical = 0
@@ -111,18 +113,17 @@ class Player(sprite.Sprite):
         return damage - blocked_damage
 
     def draw(self, screen):
-        if len(self.animation) == 0:
-            screen.blit(self.image, (self.rect.x * PLAYER_WIDTH, self.rect.y * PLAYER_HEIGHT))
-        else:
-            self.image = image.load(self.animation[self.frame % 2])
+        if len(self.animation) > 0:
+            self.image = image.load(
+                self.animation[self.frame % 2])
             self.frame += 1
-            screen.blit(self.image, (self.rect.x * PLAYER_WIDTH, self.rect.y * PLAYER_HEIGHT))
+        screen.blit(self.image, (self.rect.x * PLAYER_WIDTH, self.rect.y * PLAYER_HEIGHT))
 
-        self.health = Rect(self.rect.x, self.rect.y, (PLAYER_WIDTH - 5) * abs(self.health_points) / self.max_hp, 5)
+        self.health = Rect(self.rect.x, self.rect.y, 0, 0)
         self.hp_line = Surface((int((PLAYER_WIDTH - 5) * abs(self.health_points) / self.max_hp), 5))
-        r = min(255 * (1 - self.health_points / self.max_hp), 255)
-        g = max(255 * (self.health_points / self.max_hp), 0)
-        self.hp_line.fill(Color(int(r), int(g), 0))
+        self.hp_line.fill(Color(int(min(255 * (1 - self.health_points / self.max_hp), 255)),
+                                int(max(255 * (self.health_points / self.max_hp), 0)),
+                                0))
         screen.blit(self.hp_line, (self.health.x * PLAYER_WIDTH, self.health.y * PLAYER_HEIGHT))
 
 

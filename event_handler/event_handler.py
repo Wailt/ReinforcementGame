@@ -6,7 +6,6 @@ def event_handler(e, button):
         raise (SystemExit, "QUIT")
     if e.type == MOUSEBUTTONDOWN:
         if button.rect.collidepoint(mouse.get_pos()):
-            button.image.fill(Color(200, 200, 0))
             button.pushed = not button.pushed
 
 

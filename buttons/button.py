@@ -21,5 +21,10 @@ class Button(sprite.Sprite):
             self.image.fill(Color(255, 255, 255))
 
     def draw(self, screen):
+        if self.pushed:
+            self.image.fill(Color(200, 200, 0))
+        else:
+            self.image.fill(Color(255, 255, 255))
+            
         screen.blit(self.image, (self.rect.x, self.rect.y))
         screen.blit(self.font.render(self.info, 1, (0, 0, 0)), (self.rect.x, self.rect.y))
