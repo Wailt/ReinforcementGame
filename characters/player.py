@@ -34,8 +34,10 @@ class Player(sprite.Sprite):
         if self.strategy_name != mode:
             self.strategy_name = mode
             self.dec_list = None
+
         self.move()
         self.update_skills()
+
         if not self.dec_list:
             self.dec_list = self.brain.decide(npc, world, strategy_name=self.strategy_name)
         self.implement_dec_list(world)
@@ -64,9 +66,6 @@ class Player(sprite.Sprite):
                 else:
                     self.horizontal = (((enemy[0].rect.x - self.rect.x) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
                     self.vertical = (((enemy[0].rect.y - self.rect.y) >= 0) * 2 - 1) if npr.randint(0, 3) else 0
-
-                    #self.horizontal = self.horizontal * (mode * 2 - 1)
-                    #self.vertical = self.vertical * (mode * 2 - 1)
                     res = (abs(self.horizontal) + abs(self.horizontal))/50
             else:
                 self.horizontal = npr.randint(0, 3) - 1
@@ -94,18 +93,12 @@ class Player(sprite.Sprite):
 
         temp = 10 * float(self.stats.skills["athletics"])
         self.stats.skills_upgrade["athletics"] = (abs(self.horizontal) + abs(self.vertical)) / temp
-
-
-        # self.stats.skills["athletics"] += self.stats.skills_upgrade["athletics"]
-
         self.horizontal = self.vertical = 0
 
     def attack(self, g):
         damage = self.stats.skills["fight"] * self.stats.attributes["strength"]
-        # damage = 45
         res = g.defend(damage)
-        self.stats.skills_upgrade["fight"] = 1 / damage  # self.stats.skills["fight"]
-        # self.stats.skills["fight"] += self.stats.skills_upgrade["fight"]
+        self.stats.skills_upgrade["fight"] = 1 / damage
         return res
 
     def defend(self, damage):
@@ -127,9 +120,9 @@ class Player(sprite.Sprite):
 
         self.health = Rect(self.rect.x, self.rect.y, (PLAYER_WIDTH - 5) * abs(self.health_points) / self.max_hp, 5)
         self.hp_line = Surface((int((PLAYER_WIDTH - 5) * abs(self.health_points) / self.max_hp), 5))
-        r = min(int(255 * (1 - self.health_points / self.max_hp)), 255)
-        g = max(int(255 * (self.health_points / self.max_hp)), 0)
-        self.hp_line.fill(Color(r, g, 0))
+        r = min(255 * (1 - self.health_points / self.max_hp), 255)
+        g = max(255 * (self.health_points / self.max_hp), 0)
+        self.hp_line.fill(Color(int(r), int(g), 0))
         screen.blit(self.hp_line, (self.health.x * PLAYER_WIDTH, self.health.y * PLAYER_HEIGHT))
 
 

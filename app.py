@@ -22,7 +22,7 @@ def main():
     pygame.display.set_caption("Rein")
     timer = pygame.time.Clock()
 
-    brains = [Brain(identifier=1) for i in range(15)] + [Brain(identifier=2) for i in range(15)]
+    brains = [Brain(identifier=1,n=2) for i in range(15)] + [Brain(identifier=2,n=2) for i in range(15)]
 
     while True:
         field = Environment(ENV_WIDTH_CELLS, ENV_HEIGHT_CELLS)
@@ -79,6 +79,7 @@ def main():
             mode_button.draw(screen)
             pygame.display.update()
 
+        field.draw(screen)
         for g in group_one + group_two:
             g.draw(screen)
 

@@ -9,8 +9,10 @@ class Environment:
             f = []
             for j in range(height):
                 if npr.randint(19):
+                    #place grass
                     f.append(Cell(i, j, img='img/grass_' + str(npr.randint(1, 4)) + '.png'))
                 else:
+                    #place stone
                     cell = Cell(i, j, img='img/stone.png')
                     cell.occupied = True
                     f.append(cell)
@@ -18,7 +20,5 @@ class Environment:
 
 
     def draw(self, screen):
-        for i in self.map:
-            for j in i:
-                j.draw(screen)
+        [j.draw(screen) for i in self.map for j in i]
 
