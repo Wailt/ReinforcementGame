@@ -53,6 +53,8 @@ def main():
                             img='img/warriorNew_1.png') for i in range(15)]
 
         while len(group_one) > 0 and len(group_two) > 0:
+            pacman_list = ([pacman] if pac_button.pushed and pacman.flag != 'delete' else [])
+            enteties = group_one + group_two + pacman_list
             timer.tick(7.5)
             for evt in pygame.event.get():
                 event_handler(evt, pac_button)
@@ -61,16 +63,16 @@ def main():
             pygame.display.update()
 
             if pac_button.pushed:
-                pacman.update(pacman, group_one + group_two, mode=True)
+                pacman.update(pacman, enteties, mode=True)
+
             field.draw(screen)
-            for g in group_one + group_two + ([pacman] if pac_button.pushed and pacman.flag != 'delete' else []):
+            for g in enteties:
                 if g.flag == 'delete':
                     continue
                 if len(group_one) != 0 and len(group_two) != 0:
-                    g.update(g, group_one + group_two + ([pacman] if pac_button.pushed and pacman.flag != 'delete' else []), mode=not mode_button.pushed)
-
-            for g in group_one + group_two + ([pacman] if pac_button.pushed and pacman.flag != 'delete' else []):
+                    g.update(g, enteties, mode=not mode_button.pushed)
                 g.draw(screen)
+
 
             group_one = [i for i in group_one if i.flag != 'delete']
             group_two = [i for i in group_two if i.flag != 'delete']
@@ -80,7 +82,7 @@ def main():
             pygame.display.update()
 
         field.draw(screen)
-        for g in group_one + group_two:
+        for g in enteties:
             g.draw(screen)
 
         wait = True
