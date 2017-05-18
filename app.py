@@ -29,6 +29,8 @@ def main():
 
         pac_button = Button(ENV_WIDTH_CELLS, 0, info='PC')
         mode_button = Button(ENV_WIDTH_CELLS, 1, info='mode')
+        mode_button_1 = Button(ENV_WIDTH_CELLS, 2, info='mod1')
+        mode_button_2 = Button(ENV_WIDTH_CELLS, 3, info='mod2')
         go_button = Button(5, 4, img='img/game_over2.png')
         pacman = Player(field=field,
                         x=0,
@@ -59,6 +61,8 @@ def main():
             for evt in pygame.event.get():
                 event_handler(evt, pac_button)
                 event_handler(evt, mode_button)
+                event_handler(evt, mode_button_1)
+                event_handler(evt, mode_button_2)
 
             pygame.display.update()
 
@@ -70,7 +74,10 @@ def main():
                 if g.flag == 'delete':
                     continue
                 if len(group_one) != 0 and len(group_two) != 0:
-                    g.update(g, enteties, mode=not mode_button.pushed)
+                    if g in group_one:
+                        g.update(g, enteties, mode=not (mode_button.pushed or mode_button_1.pushed))
+                    elif g in group_two:
+                        g.update(g, enteties, mode=not (mode_button.pushed or mode_button_2.pushed))
                 g.draw(screen)
 
 
@@ -79,6 +86,8 @@ def main():
 
             pac_button.draw(screen)
             mode_button.draw(screen)
+            mode_button_1.draw(screen)
+            mode_button_2.draw(screen)
             pygame.display.update()
 
         field.draw(screen)
