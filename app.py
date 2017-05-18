@@ -33,8 +33,8 @@ def main():
         mode_button_2 = Button(ENV_WIDTH_CELLS, 3, info='mod2')
         go_button = Button(5, 4, img='img/game_over2.png')
         pacman = Player(field=field,
-                        x=0,
-                        y=0,
+                        x=npr.randint(ENV_WIDTH_CELLS),
+                        y=npr.randint(ENV_HEIGHT_CELLS),
                         health_points=1000,
                         brain=Brain(identifier=3, n=1),
                         img='img/pacman_1.png',
